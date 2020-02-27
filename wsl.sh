@@ -18,7 +18,7 @@ apt install -y powershell-preview
 ln -sf /usr/bin/pwsh-preview /usr/bin/pwsh
 
 # python
-apt install python3 python3-venv python3-pip
+apt install -y python3 python3-venv python3-pip
 
 # gpg
 
