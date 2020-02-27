@@ -14,7 +14,7 @@ apt install -y dotnet-sdk-3.1 aspnetcore-runtime-3.1 dotnet-runtime-3.1 dotnet-r
 
 # pwsh
 
-apt-get install -y powershell-preview
+apt install -y powershell-preview
 ln -sf /usr/bin/pwsh-preview /usr/bin/pwsh
 
 # python
