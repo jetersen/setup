@@ -28,6 +28,8 @@ Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.
 
 choco feature enable -n allowGlobalConfirmation
 
+scoop install git
+
 scoop bucket add extras
 scoop bucket add nerd-fonts
 
@@ -35,20 +37,21 @@ choco install chocolatey-core.extension vcredist2015 googlechrome vscode.install
 choco install dotnetcore-sdk --version=2.1.804 --side-by-side
 choco install dotnetcore-sdk --version=3.1.102 --side-by-side
 
-scoop install git gpg4win greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox nodejs python
+# scoop install gpg4win
+scoop install greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox nodejs python
 
 # Chocolatey update the $ENV:PATH
 Update-SessionEnvironment
 
 # Fix GnuPG adding itself to path incorrectly:
-$env:PATH -replace '[^;]+Gpg4win\\\.\.\\GnuPG\\bin;'
+# $env:Path = $env:Path -replace '[^;]+Gpg4win\\\.\.\\GnuPG\\bin;'
 
 # Workaround for powershell preview not on path as `pwsh`
 $env:Path += ";C:\Program Files\PowerShell\7-preview"
 
 [Environment]::SetEnvironmentVariable("Path", $env:Path, "Machine")
 
-.\gpg.ps1
+# .\gpg.ps1
 
 # Schedule wsldistro.ps1
 $scriptlocation = Get-ChildItem .\features.ps1 | Select-Object -ExpandProperty FullName
