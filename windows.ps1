@@ -1,4 +1,4 @@
-#requires -runasadministrator
+#Requires -RunAsAdministrator
 
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
@@ -14,18 +14,25 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727' -Name 'SystemDefaultTlsVersions' -Value '1' -Type DWord
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name 'SystemDefaultTlsVersions' -Value '1' -Type DWord
 
-
-Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } -UseMSI -Preview -Quiet"
+.\debloat.ps1
 
 Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')
 Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
 
-choco install vscode googlechrome
+# $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
+
+# gpg home dir should be inside userprofile, otherwise git will have a field day 😅
+[Environment]::SetEnvironmentVariable("GNUPGHOME", "%USERPROFILE%\.gnupg", "Machine")
+
+choco feature enable -n allowGlobalConfirmation
 
 scoop butcket add extras
 scoop butcket add nerd-fonts
 
-scoop install git gpg4win greenshot gsudo hub jetbrains-mono rapidee slack
+choco install chocolatey-core.extension vcredist2015 googlechrome vscode.install powershell-preview
+choco install dotnetcore-sdk --version=2.1.804 --side-by-side
+choco install dotnetcore-sdk --version=3.1.102 --side-by-side
 
-$env:PATH += ";$(scoop prefix gpg4win)\GnuPG\bin"
-./gpg.ps1
+scoop install git gpg4win greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox nodejs python
+
+.\gpg.ps1
