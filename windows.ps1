@@ -1,5 +1,8 @@
 #Requires -RunAsAdministrator
 
+$owner = "casz"
+$repo = "setup"
+
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 
 # enable TLS 1.2 on 64 bit .Net Framework
@@ -57,6 +60,14 @@ RefreshEnv
 $env:Path += ";C:\Program Files\PowerShell\7-preview"
 
 [Environment]::SetEnvironmentVariable("Path", $env:Path, "Machine")
+
+# fix setup repo to be connected to git
+if (!(Test-Path ".\.git")) {
+  git init
+  git remote add origin "https://github.com/$owner/$repo.git"
+  git fetch
+  git reset --hard origin/master
+}
 
 # .\gpg.ps1
 
