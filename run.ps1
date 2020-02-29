@@ -1,5 +1,5 @@
 #Requires -RunAsAdministrator
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 
 $owner = "casz"
 $repo = "setup"
