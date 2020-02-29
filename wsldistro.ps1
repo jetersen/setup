@@ -3,7 +3,7 @@ $task = Get-ScheduledTask | Where-Object TaskName -eq $taskName
 
 if ($task) {
   $file = "$env:TEMP\ubuntu-1804.appx"
-  Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile $file -UseBasicParsing
+  curl.exe -sL https://aka.ms/wsl-ubuntu-1804 -o $file
   Add-AppxPackage $file
   Remove-Item $file
   $task | Unregister-ScheduledTask -Confirm:$false
