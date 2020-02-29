@@ -49,3 +49,7 @@ $TaskTrigger = (New-ScheduledTaskTrigger -atstartup)
 $TaskAction = New-ScheduledTaskAction -Execute pwsh.exe -argument "$scriptlocation"
 $TaskUserID = New-ScheduledTaskPrincipal -UserId "$env:USERNAME" -RunLevel Highest
 Register-ScheduledTask -Force -TaskName InstallWSLDistro -Action $TaskAction -Principal $TaskUserID -Trigger $TaskTrigger
+
+Start-Sleep -Seconds 2
+
+Restart-Computer -Force
