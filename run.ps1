@@ -1,4 +1,6 @@
 #Requires -RunAsAdministrator
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 $owner = "casz"
 $repo = "setup"
 New-Item -ItemType Directory -Force -Path \git\code
