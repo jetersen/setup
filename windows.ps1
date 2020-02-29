@@ -38,3 +38,10 @@ choco install dotnetcore-sdk --version=3.1.102 --side-by-side
 scoop install git gpg4win greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox nodejs python
 
 .\gpg.ps1
+
+# Schedule wsldistro.ps1
+$scriptlocation = Get-ChildItem .\features.ps1 | Select-Object -ExpandProperty FullName
+$TaskTrigger = (New-ScheduledTaskTrigger -atstartup)
+$TaskAction = New-ScheduledTaskAction -Execute pwsh.exe -argument "$scriptlocation"
+$TaskUserID = New-ScheduledTaskPrincipal -UserId "$env:USERNAME" -RunLevel Highest
+Register-ScheduledTask -Force -TaskName InstallWSLDistro -Action $TaskAction -Principal $TaskUserID -Trigger $TaskTrigger
