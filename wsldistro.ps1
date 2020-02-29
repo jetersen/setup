@@ -2,7 +2,14 @@ $taskName = "InstallWSLDistro"
 $task = Get-ScheduledTask | Where-Object TaskName -eq $taskName
 
 if ($task) {
-  $file = "$env:TEMP\ubuntu-1804.appx"
+  $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
+  if ($winVer -ge 2004) {
+    # wsl 2 rocks 🚀
+    wsl --set-default-version 2
+  }
+  $item = "wsl-ubuntu-1804"
+  $file = "$env:TEMP\$item.appx"
+  Write-Host "Downloading $item"
   curl.exe -sL https://aka.ms/wsl-ubuntu-1804 -o $file
   Add-AppxPackage $file
   Remove-Item $file
