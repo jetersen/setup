@@ -54,11 +54,7 @@ $env:Path += ";C:\Program Files\PowerShell\7-preview"
 # .\gpg.ps1
 
 # Schedule wsldistro.ps1
-$scriptlocation = Get-ChildItem .\wsldistro.ps1 | Select-Object -ExpandProperty FullName
-$TaskTrigger = (New-ScheduledTaskTrigger -AtLogOn -User)
-$TaskAction = New-ScheduledTaskAction -Execute pwsh.exe -argument "$scriptlocation"
-$TaskUserID = New-ScheduledTaskPrincipal -UserId "$env:USERNAME" -RunLevel Highest
-Register-ScheduledTask -Force -TaskName "InstallWSLDistro" -Action $TaskAction -Principal $TaskUserID -Trigger $TaskTrigger
+.\wsldistro.ps1
 
 Start-Sleep -Seconds 2
 
