@@ -41,7 +41,14 @@ choco install dotnetcore-sdk --version=3.1.102 --side-by-side
 scoop install greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox nodejs python
 
 # Chocolatey update the $ENV:PATH
-Update-SessionEnvironment
+$chocoProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (!(Test-Path "$chocoProfile")) {
+  $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
+  $chocoProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+}
+
+Import-Module "$chocoProfile"
+RefreshEnv
 
 # Fix GnuPG adding itself to path incorrectly:
 # $env:Path = $env:Path -replace '[^;]+Gpg4win\\\.\.\\GnuPG\\bin;'
