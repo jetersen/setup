@@ -268,3 +268,4 @@ Function Protect-Privacy {
 
 Remove-Bloat
 Remove-Keys
+Protect-Privacy
