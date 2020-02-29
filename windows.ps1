@@ -35,6 +35,10 @@ choco install chocolatey-core.extension vcredist2015 googlechrome vscode.install
 choco install dotnetcore-sdk --version=2.1.804 --side-by-side
 choco install dotnetcore-sdk --version=3.1.102 --side-by-side
 
+# Workaround for powershell preview not on path as `pwsh`
+$env:Path += ";C:\Program Files\PowerShell\7-preview"
+[Environment]::SetEnvironmentVariable("Path", $env:Path, "Machine")
+
 scoop install git gpg4win greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox nodejs python
 
 .\gpg.ps1
