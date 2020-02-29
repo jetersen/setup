@@ -26,8 +26,8 @@ Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.
 
 choco feature enable -n allowGlobalConfirmation
 
-scoop butcket add extras
-scoop butcket add nerd-fonts
+scoop bucket add extras
+scoop bucket add nerd-fonts
 
 choco install chocolatey-core.extension vcredist2015 googlechrome vscode.install powershell-preview
 choco install dotnetcore-sdk --version=2.1.804 --side-by-side
