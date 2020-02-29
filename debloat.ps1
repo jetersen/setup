@@ -250,12 +250,13 @@ Function Protect-Privacy {
 
   #Disables scheduled tasks that are considered unnecessary
   Write-Output "Disabling scheduled tasks"
-  Get-ScheduledTask XblGameSaveTaskLogon | Disable-ScheduledTask
-  Get-ScheduledTask XblGameSaveTask | Disable-ScheduledTask
-  Get-ScheduledTask Consolidator | Disable-ScheduledTask
-  Get-ScheduledTask UsbCeip | Disable-ScheduledTask
-  Get-ScheduledTask DmClient | Disable-ScheduledTask
-  Get-ScheduledTask DmClientOnScenarioDownload | Disable-ScheduledTask
+  $tasks = Get-ScheduledTask
+  $tasks | Where-Object TaskName -eq "XblGameSaveTaskLogon" | Disable-ScheduledTask
+  $tasks | Where-Object TaskName -eq "XblGameSaveTask" | Disable-ScheduledTask
+  $tasks | Where-Object TaskName -eq "Consolidator" | Disable-ScheduledTask
+  $tasks | Where-Object TaskName -eq "UsbCeip" | Disable-ScheduledTask
+  $tasks | Where-Object TaskName -eq "DmClient" | Disable-ScheduledTask
+  $tasks | Where-Object TaskName -eq "DmClientOnScenarioDownload" | Disable-ScheduledTask
 
   $CloudStore = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore'
   If (Test-Path $CloudStore) {
