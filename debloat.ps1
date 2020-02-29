@@ -257,12 +257,14 @@ Function Protect-Privacy {
   Get-ScheduledTask DmClient | Disable-ScheduledTask
   Get-ScheduledTask DmClientOnScenarioDownload | Disable-ScheduledTask
 
-  Write-Output "Removing CloudStore from registry if it exists"
   $CloudStore = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore'
   If (Test-Path $CloudStore) {
-    Stop-Process Explorer.exe -Force
-    Remove-Item $CloudStore
-    Start-Process Explorer.exe -Wait
+    Write-Output "Removing CloudStore from registry"
+    Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoRestartShell -Value 0
+    Stop-Process -ProcessName "explorer" -Force
+    Remove-Item $CloudStore -Recurse -Force
+    Start-Process "Explorer.exe" -Wait
+    Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoRestartShell -Value 1
   }
 }
 
