@@ -13,5 +13,5 @@ Invoke-Expression ((curl.exe -sL https://raw.githubusercontent.com/casz/setup/ma
 
 Another option
 ```powershell
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/casz/setup/master/run.ps1')
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/casz/setup/master/run.ps1')
 ```
