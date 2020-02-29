@@ -3,7 +3,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 $owner = "casz"
 $repo = "setup"
-New-Item -ItemType Directory -Force -Path \git\code
+New-Item -ItemType Directory -Force -Path \git\code | Out-Null
 Set-Location \git\code
 Invoke-WebRequest -Uri "https://github.com/$owner/$repo/archive/master.zip" -OutFile .\$repo.zip
 Expand-Archive -Path .\$repo.zip -DestinationPath .\ -Force
