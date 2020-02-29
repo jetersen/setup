@@ -24,6 +24,8 @@ Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.
 # gpg home dir should be inside userprofile, otherwise git will have a field day 😅
 [Environment]::SetEnvironmentVariable("GNUPGHOME", "%USERPROFILE%\.gnupg", "Machine")
 
+.\features.ps1
+
 choco feature enable -n allowGlobalConfirmation
 
 scoop bucket add extras

@@ -13,5 +13,5 @@ $features = @{
   )
 }
 
-Disable-WindowsOptionalFeature -FeatureName $features.disable -Online -NoRestart
-Enable-WindowsOptionalFeature -FeatureName $features.enable -Online -All -NoRestart
+Disable-WindowsOptionalFeature -FeatureName $features.disable -Online -NoRestart | Out-Null
+Enable-WindowsOptionalFeature -FeatureName $features.enable -Online -All -NoRestart | Out-Null
