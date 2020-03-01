@@ -1,3 +1,4 @@
+Write-Host "Installing DevTools"
 choco install -y dotnetcore-sdk --version=2.1.804 --side-by-side
 choco install -y dotnetcore-sdk --version=3.1.102 --side-by-side
 choco install -y git.install --package-parameters="'/GitAndUnixToolsOnPath /WindowsTerminal /NoShellIntegration /SChannel'"

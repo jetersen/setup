@@ -13,4 +13,4 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727' -Name 'SystemDefaultTlsVersions' -Value 1
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name 'SystemDefaultTlsVersions' -Value 1
 
-choco uninstall Internet-Explorer-Optional-amd64 --source="'windowsfeatures'"
+Disable-WindowsOptionalFeature -FeatureName 'Internet-Explorer-Optional-amd64' -Online -NoRestart | Out-Null

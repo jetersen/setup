@@ -1,3 +1,5 @@
+Write-Host "Installing PowerShell 7"
+
 choco install -y powershell-preview
 
 RefreshEnv

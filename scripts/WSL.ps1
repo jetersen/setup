@@ -1,3 +1,4 @@
+Write-Host "Installing WSL"
 choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
 
 $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
