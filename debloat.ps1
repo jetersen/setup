@@ -99,6 +99,7 @@ Function Remove-Bloat {
     $bloaterProvisioned = Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat
     if ($bloater) {
       Write-Output "Trying to remove $Bloat."
+      $bloater | Remove-AppPackage
     }
     if ($bloaterProvisioned) {
       $bloaterProvisioned | Remove-AppxProvisionedPackage -Online | Out-Null
