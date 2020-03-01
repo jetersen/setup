@@ -159,7 +159,6 @@ if ((Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent").
   #Prevents bloatware applications from returning and removes Start Menu suggestions
   Write-Output "Adding Registry key to prevent bloatware apps from returning"
   $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-  $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent\DisableWindowsConsumerFeatures"
   $registryOEM = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
   If (!(Test-Path $registryPath)) {
     New-Item $registryPath
