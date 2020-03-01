@@ -33,6 +33,7 @@ ExecuteScript "Browsers.ps1"
 ExecuteScript "DevTools.ps1"
 ExecuteScript "Docker.ps1"
 ExecuteScript "WSL.ps1"
+ExecuteScript "Projects.ps1"
 
 Enable-UAC
 Enable-MicrosoftUpdate
