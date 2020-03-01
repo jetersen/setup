@@ -10,10 +10,14 @@ if ($task) {
   $item = "wsl-ubuntu-1804"
   $file = "$env:TEMP\$item.appx"
   Write-Host "Downloading $item"
-  curl.exe -sL https://aka.ms/wsl-ubuntu-1804 -o $file
+  curl.exe -sL https://aka.ms/$item -o $file
   Add-AppxPackage $file
   Remove-Item $file
   $task | Unregister-ScheduledTask -Confirm:$false
+  # Run ubuntu as blocking so we can setup the initial username password
+  # Once you type exit or logout, wsl.sh script will run.
+  ubuntu1804.exe
+  wsl -d Ubuntu-18.04 sudo bash ./wsl.sh
 } else {
   $scriptlocation = Get-ChildItem .\wsldistro.ps1 | Select-Object -ExpandProperty FullName
   $TaskTrigger = (New-ScheduledTaskTrigger -AtLogOn)

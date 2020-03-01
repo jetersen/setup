@@ -1,6 +1,9 @@
 #!/bin/bash
 VER=$(lsb_release -sr) # like `18.04`
 
+apt update
+apt upgrade -y
+
 # dotnet
 
 wget -q https://packages.microsoft.com/config/ubuntu/${VER}/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
@@ -22,4 +25,4 @@ apt install -y python3 python3-venv python3-pip
 
 # gpg
 
-pwsh ./gpg.ps1
+# pwsh ./gpg.ps1
