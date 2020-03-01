@@ -21,6 +21,8 @@ function ExecuteScript {
 	Invoke-Expression ((new-object net.webclient).DownloadString("$helperUri/$script"))
 }
 
+choco feature disable --name showDownloadProgress
+
 ExecuteScript "SystemConfiguration.ps1"
 ExecuteScript "FileExplorerSettings.ps1"
 ExecuteScript "PowerShell7.ps1"
