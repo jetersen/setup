@@ -25,12 +25,12 @@ choco feature disable --name showDownloadProgress
 
 ExecuteScript "SystemConfiguration.ps1"
 ExecuteScript "FileExplorerSettings.ps1"
+ExecuteScript "Features.ps1"
 ExecuteScript "PowerShell7.ps1"
 ExecuteScript "RemoveDefaultApps.ps1"
 ExecuteScript "VSCode.ps1"
 ExecuteScript "Browsers.ps1"
 ExecuteScript "DevTools.ps1"
-ExecuteScript "HyperV.ps1"
 ExecuteScript "Docker.ps1"
 ExecuteScript "WSL.ps1"
 
