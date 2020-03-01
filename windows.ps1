@@ -69,7 +69,7 @@ if (!(Test-Path ".\.git")) {
   git reset --hard origin/master
 }
 
-# .\gpg.ps1
+.\gpg.ps1
 
 # Schedule wsldistro.ps1
 .\wsldistro.ps1

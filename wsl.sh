@@ -25,4 +25,4 @@ apt install -y python3 python3-venv python3-pip
 
 # gpg
 
-# pwsh ./gpg.ps1
+pwsh ./gpg.ps1
