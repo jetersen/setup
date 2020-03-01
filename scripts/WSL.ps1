@@ -1,9 +1,9 @@
 Write-Host "Installing WSL"
-choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
+choco install -y Microsoft-Windows-Subsystem-Linux -source WindowsFeatures
 
 $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
 if ($winVer -ge 2004) {
-  choco install -y VirtualMachinePlatform --source="'windowsfeatures'"
+  choco install -y VirtualMachinePlatform -source WindowsFeatures
   RefreshEnv
   # wsl 2 rocks 🚀
     wsl --set-default-version 2
