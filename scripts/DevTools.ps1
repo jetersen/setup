@@ -7,7 +7,7 @@ choco install -y adoptopenjdk11
 choco install -y adoptopenjdk8
 choco install -y maven
 choco install -y gpg4win
-choco install -y greenshot
+choco install -y sharex
 choco install -y gsudo
 choco install -y hub
 choco install -y jetbrainsmono
