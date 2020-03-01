@@ -36,12 +36,12 @@ scoop install git
 scoop bucket add extras
 scoop bucket add nerd-fonts
 
-choco install chocolatey-core.extension vcredist2015 googlechrome vscode.install powershell-preview python3 nodejs.install
+choco install chocolatey-core.extension vcredist2015 googlechrome vscode.install powershell-preview python3 nodejs.install adoptopenjdk11 adoptopenjdk8
 choco install dotnetcore-sdk --version=2.1.804 --side-by-side
 choco install dotnetcore-sdk --version=3.1.102 --side-by-side
 
 # scoop install gpg4win
-scoop install greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox
+scoop install greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox maven
 
 # Chocolatey update the $ENV:PATH
 $chocoProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
