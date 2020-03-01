@@ -1,79 +1,36 @@
-#Requires -RunAsAdministrator
+# Description: Boxstarter Script
+# Author: Joseph Petersen
+# My Personal Setup
 
-$owner = "casz"
-$repo = "setup"
+Disable-UAC
 
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+# Get the base URI path from the ScriptToCall value
+$bstrappackage = "-bootstrapPackage"
+$helperUri = $Boxstarter['ScriptToCall']
+$strpos = $helperUri.IndexOf($bstrappackage)
+$helperUri = $helperUri.Substring($strpos + $bstrappackage.Length)
+$helperUri = $helperUri.TrimStart("'", " ")
+$helperUri = $helperUri.TrimEnd("'", " ")
+$helperUri = $helperUri.Substring(0, $helperUri.LastIndexOf("/"))
+$helperUri += "/scripts"
+Write-Host "helper script base URI is $helperUri"
 
-# enable TLS 1.2 on 64 bit .Net Framework
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v2.0.50727' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v2.0.50727' -Name 'SystemDefaultTlsVersions' -Value '1' -Type DWord
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NetFramework\v4.0.30319' -Name 'SystemDefaultTlsVersions' -Value '1' -Type DWord
-
-# enable TLS 1.2 on 32 bit .Net Framework
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name 'SchUseStrongCrypto' -Value '1' -Type DWord
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727' -Name 'SystemDefaultTlsVersions' -Value '1' -Type DWord
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\.NetFramework\v4.0.30319' -Name 'SystemDefaultTlsVersions' -Value '1' -Type DWord
-
-.\debloat.ps1
-
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-
-# $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
-
-# gpg home dir should be inside userprofile, otherwise git will have a field day 😅
-[Environment]::SetEnvironmentVariable("GNUPGHOME", "%USERPROFILE%\.gnupg", "Machine")
-
-.\features.ps1
-
-choco feature enable -n allowGlobalConfirmation
-
-scoop install git
-
-scoop bucket add extras
-scoop bucket add nerd-fonts
-
-choco install chocolatey-core.extension vcredist2015 googlechrome vscode.install powershell-preview python3 nodejs.install adoptopenjdk11 adoptopenjdk8
-choco install dotnetcore-sdk --version=2.1.804 --side-by-side
-choco install dotnetcore-sdk --version=3.1.102 --side-by-side
-
-# scoop install gpg4win
-scoop install greenshot gsudo hub jetbrains-mono rapidee slack jetbrains-toolbox maven
-
-# Chocolatey update the $ENV:PATH
-$chocoProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (!(Test-Path "$chocoProfile")) {
-  $env:ChocolateyInstall = Convert-Path "$((Get-Command choco).Path)\..\.."
-  $chocoProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+function ExecuteScript {
+  Param ([string]$script)
+  Write-Host "executing $helperUri/$script ..."
+	Invoke-Expression ((new-object net.webclient).DownloadString("$helperUri/$script"))
 }
 
-Import-Module "$chocoProfile"
-RefreshEnv
+ExecuteScript "SystemConfiguration.ps1"
+ExecuteScript "FileExplorerSettings.ps1"
+ExecuteScript "PowerShell7.ps1"
+ExecuteScript "RemoveDefaultApps.ps1"
+ExecuteScript "VSCode.ps1"
+ExecuteScript "DevTools.ps1"
+ExecuteScript "HyperV.ps1"
+ExecuteScript "Docker.ps1"
+ExecuteScript "WSL.ps1"
 
-# Fix GnuPG adding itself to path incorrectly:
-# $env:Path = $env:Path -replace '[^;]+Gpg4win\\\.\.\\GnuPG\\bin;'
-
-# Workaround for powershell preview not on path as `pwsh`
-$env:Path += ";C:\Program Files\PowerShell\7-preview"
-
-[Environment]::SetEnvironmentVariable("Path", $env:Path, "Machine")
-
-# fix setup repo to be connected to git
-if (!(Test-Path ".\.git")) {
-  git init
-  git remote add origin "https://github.com/$owner/$repo.git"
-  git fetch
-  git reset --hard origin/master
-}
-
-.\gpg.ps1
-
-# Schedule wsldistro.ps1
-.\wsldistro.ps1
-
-Start-Sleep -Seconds 2
-
-Restart-Computer -Force
+Enable-UAC
+Enable-MicrosoftUpdate
+Install-WindowsUpdate -acceptEula
