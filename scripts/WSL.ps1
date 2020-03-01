@@ -4,8 +4,9 @@ choco install -y Microsoft-Windows-Subsystem-Linux --source="'windowsfeatures'"
 $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
 if ($winVer -ge 2004) {
   choco install -y VirtualMachinePlatform --source="'windowsfeatures'"
+  RefreshEnv
   # wsl 2 rocks 🚀
-  wsl --set-default-version 2
+    wsl --set-default-version 2
 }
 $item = "wsl-ubuntu-1804"
 $file = "$env:TEMP\$item.appx"
