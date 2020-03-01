@@ -174,13 +174,3 @@ $tasks | Where-Object TaskName -eq "Consolidator" | Disable-ScheduledTask
 $tasks | Where-Object TaskName -eq "UsbCeip" | Disable-ScheduledTask
 $tasks | Where-Object TaskName -eq "DmClient" | Disable-ScheduledTask
 $tasks | Where-Object TaskName -eq "DmClientOnScenarioDownload" | Disable-ScheduledTask
-
-$CloudStore = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore'
-If (Test-Path $CloudStore) {
-  Write-Output "Removing CloudStore from registry"
-  Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoRestartShell -Value 0
-  Stop-Process -ProcessName "explorer" -Force
-  Remove-Item $CloudStore -Recurse -Force
-  Start-Process "Explorer.exe" -Wait
-  Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name AutoRestartShell -Value 1
-}
