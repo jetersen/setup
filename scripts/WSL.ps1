@@ -15,32 +15,32 @@ Remove-Item $file
 RefreshEnv
 
 Ubuntu1804 install --root
-Ubuntu1804 run apt update
-Ubuntu1804 run apt upgrade -y
+Ubuntu1804 run apt-get update
+Ubuntu1804 run DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
 Ubuntu1804 run wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 Ubuntu1804 run dpkg -i packages-microsoft-prod.deb
 Ubuntu1804 run rm -f packages-microsoft-prod.deb
 
-Ubuntu1804 run apt update
-Ubuntu1804 run apt install -y apt-transport-https
-Ubuntu1804 run apt update
-Ubuntu1804 run apt install -y dotnet-sdk-3.1 aspnetcore-runtime-3.1 dotnet-runtime-3.1 dotnet-runtime-2.1
+Ubuntu1804 run apt-get update
+Ubuntu1804 run DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https
+Ubuntu1804 run apt-get update
+Ubuntu1804 run DEBIAN_FRONTEND=noninteractive apt-get install -y dotnet-sdk-3.1 aspnetcore-runtime-3.1 dotnet-runtime-3.1 dotnet-runtime-2.1
 
 # pwsh
 
-Ubuntu1804 run apt install -y powershell-preview
+Ubuntu1804 run DEBIAN_FRONTEND=noninteractive apt-get install -y powershell-preview
 Ubuntu1804 run ln -sf /usr/bin/pwsh-preview /usr/bin/pwsh
 
 # python
 
-Ubuntu1804 run apt install -y python3 python3-venv python3-pip
+Ubuntu1804 run DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-venv python3-pip
 
 # ruby
 
-Ubuntu1804 run apt install -y ruby ruby-dev ruby-bundler zlib1g-dev
+Ubuntu1804 run DEBIAN_FRONTEND=noninteractive apt-get install -y ruby ruby-dev ruby-bundler zlib1g-dev
 
 # nodejs
 
 Ubuntu1804 run curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-Ubuntu1804 run apt install -y nodejs
+Ubuntu1804 run DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
