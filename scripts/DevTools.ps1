@@ -13,3 +13,4 @@ choco install -y jetbrainsmono
 choco install -y rapidee
 choco install -y slack
 choco install -y jetbrainstoolbox
+choco install -y microsoft-windows-terminal
