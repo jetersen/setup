@@ -3,7 +3,7 @@ $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").Ge
 if ($winVer -ge 2004) {
   RefreshEnv
   # wsl 2 rocks 🚀
-    wsl --set-default-version 2
+  wsl --set-default-version 2
 }
 $item = "wsl-ubuntu-1804"
 $file = "$env:TEMP\$item.appx"
