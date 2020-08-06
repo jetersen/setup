@@ -1,4 +1,3 @@
-Write-Host "Installing WSL"
 $winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
 if ($winVer -ge 2004) {
   RefreshEnv

@@ -22,16 +22,13 @@ function ExecuteScript {
 }
 
 choco feature disable --name showDownloadProgress
+choco feature enable --name allowGlobalConfirmation
 
 ExecuteScript "SystemConfiguration.ps1"
 ExecuteScript "FileExplorerSettings.ps1"
 ExecuteScript "Features.ps1"
-ExecuteScript "PowerShell7.ps1"
 ExecuteScript "RemoveDefaultApps.ps1"
-ExecuteScript "VSCode.ps1"
-ExecuteScript "Browsers.ps1"
 ExecuteScript "DevTools.ps1"
-ExecuteScript "Docker.ps1"
 ExecuteScript "WSL.ps1"
 ExecuteScript "Projects.ps1"
 
