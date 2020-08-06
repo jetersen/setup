@@ -21,8 +21,8 @@ apt-get install -y ruby ruby-dev ruby-bundler zlib1g-dev
 
 # nodejs
 
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+apt-get install -y nodejs
 
 # create user
 

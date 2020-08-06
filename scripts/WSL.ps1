@@ -15,6 +15,7 @@ if (!(Get-Command "ubuntu2004.exe" -ErrorAction SilentlyContinue)) {
   RefreshEnv
 
   Ubuntu2004 install --root
-  Ubuntu2004 run curl -sL "$helperUri/WSL.sh" | bash
+  Ubuntu2004 config --default-user root
+  Ubuntu2004 run "curl -sL '$helperUri/WSL.sh' | bash"
   Ubuntu2004 config --default-user joseph
 }
