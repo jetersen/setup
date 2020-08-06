@@ -6,6 +6,12 @@ I frequently need to run my setup, so I written it into scripts.
 
 If you feel like [clicking here](https://boxstarter.org/package/url?https://raw.githubusercontent.com/jetersen/setup/master/windows.ps1) (*Does not work on chrome/edge/firefox*)
 
+## ClickOnce Edge
+
+```powershell
+$path = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"; New-Item $path -Force | Out-Null; Set-ItemProperty -LiteralPath "$PATH" ClickOnceEnabled 1; start https://boxstarter.org/package/url?https://raw.githubusercontent.com/jetersen/setup/master/windows.ps1
+```
+
 ## Install from Windows Powershell
 
 ```powershell
