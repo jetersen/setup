@@ -27,7 +27,6 @@ foreach ($Item in $CodePageProperties.Keys)
 }
 
 Update-ExecutionPolicy RemoteSigned
-Disable-BingSearch
 
 choco feature disable --name showDownloadProgress
 choco feature enable --name allowGlobalConfirmation
@@ -42,3 +41,5 @@ Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name LaunchTo -Value 1
 #taskbar where window is open for multi-monitor
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name MMTaskbarMode -Value 2
+# Disable Bing search suggestions
+Set-ItemProperty -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer -Name DisableSearchBoxSuggestions -Value 1
