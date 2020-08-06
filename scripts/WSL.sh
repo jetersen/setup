@@ -27,4 +27,3 @@ apt-get install -y nodejs
 # create user
 
 useradd -m -s "$(which bash)" -G sudo joseph
-passwd joseph
