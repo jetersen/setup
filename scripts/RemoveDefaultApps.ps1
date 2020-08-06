@@ -39,6 +39,8 @@ if ((Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent").
     "Microsoft.XboxGameOverlay"
     "Microsoft.XboxIdentityProvider"
     "Microsoft.XboxSpeechToTextOverlay"
+    "Microsoft.XboxGameCallableUI"
+    "Microsoft.XboxGamingOverlay"
     "Microsoft.ZuneMusic"
     "Microsoft.ZuneVideo"
     "Microsoft.NetworkSpeedTest"
