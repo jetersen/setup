@@ -3,6 +3,7 @@
 # My Personal Setup
 
 Disable-UAC
+Disable-MicrosoftUpdate
 
 # Get the base URI path from the ScriptToCall value
 $bstrappackage = "-bootstrapPackage"
@@ -20,9 +21,6 @@ function ExecuteScript {
   Write-Host "executing $helperUri/$script ..."
 	Invoke-Expression ((new-object net.webclient).DownloadString("$helperUri/$script"))
 }
-
-choco feature disable --name showDownloadProgress
-choco feature enable --name allowGlobalConfirmation
 
 ExecuteScript "SystemConfiguration.ps1"
 ExecuteScript "FileExplorerSettings.ps1"

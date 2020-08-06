@@ -25,3 +25,9 @@ foreach ($Item in $CodePageProperties.Keys)
 {
   New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\Nls\CodePage -Name $Item -PropertyType String -Value $CodePageProperties[$Item] -Force
 }
+
+Update-ExecutionPolicy RemoteSigned
+Disable-BingSearch
+
+choco feature disable --name showDownloadProgress
+choco feature enable --name allowGlobalConfirmation
