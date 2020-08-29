@@ -2,6 +2,7 @@ choco install git -params '"/GitAndUnixToolsOnPath /WindowsTerminal /NoShellInte
 choco install dotnetcore-sdk `
   adoptopenjdk11 `
   adoptopenjdk8 `
+  bitwarden-cli `
   maven `
   gpg4win `
   gsudo `
@@ -16,10 +17,13 @@ choco install dotnetcore-sdk `
   7zip `
   vscode `
   pwsh `
+  dotnetcore-sdk `
   docker-desktop `
   docker-compose `
   googlechrome `
   firefox `
+  sops `
+  spacesniffer `
 
 
 RefreshEnv
