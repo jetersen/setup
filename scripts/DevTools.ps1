@@ -8,7 +8,6 @@ choco install dotnetcore-sdk `
   hub `
   rapidee `
   microsoft-teams.install `
-  slack `
   jetbrainstoolbox `
   microsoft-windows-terminal `
   keybase `
