@@ -52,7 +52,6 @@ if ((Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent").
     "*BubbleWitch*"
     "king.com*"
     "G5*"
-    "*Dell*"
     "*Facebook*"
     "*Keeper*"
     "*Wunderlist*"
