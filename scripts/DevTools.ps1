@@ -14,7 +14,6 @@ choco install vscode
 choco install pwsh
 choco install git
 choco install heidisql
-choco install element-desktop
 choco install keybase
 choco install dotnet-sdk
 choco install docker-desktop
