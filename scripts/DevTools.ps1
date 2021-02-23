@@ -1,30 +1,36 @@
 choco install git -params '"/GitAndUnixToolsOnPath /WindowsTerminal /NoShellIntegration /SChannel"'
-choco install dotnetcore-sdk `
-  adoptopenjdk11 `
-  adoptopenjdk8 `
+choco install `
   bitwarden-cli `
   maven `
   gpg4win `
   gsudo `
-  hub `
   rapidee `
   microsoft-teams.install `
   jetbrainstoolbox `
   microsoft-windows-terminal `
+  element-desktop `
   keybase `
+  nuget.commandline `
   gh `
-  hub `
   7zip `
   vscode `
   pwsh `
-  dotnetcore-sdk `
+  git `
+  gsudo `
+  heidisql `
+  gpg4win `
+  dotnet-sdk `
   docker-desktop `
-  docker-compose `
   googlechrome `
   firefox `
   sops `
   spacesniffer `
+  spotify `
+  winscp `
 
+
+choco install AdoptOpenJDK11 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome /INSTALLDIR=C:\Program Files\AdoptOpenJDK\jdk11"
+choco install AdoptOpenJDK8 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment /INSTALLDIR=C:\Program Files\AdoptOpenJDK\jdk8"
 
 RefreshEnv
 
