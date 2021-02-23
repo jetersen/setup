@@ -10,6 +10,9 @@ choco install `
   microsoft-windows-terminal `
   element-desktop `
   keybase `
+
+
+choco install
   nuget.commandline `
   gh `
   7zip `
@@ -18,7 +21,9 @@ choco install `
   git `
   gsudo `
   heidisql `
-  gpg4win `
+
+
+choco install
   dotnet-sdk `
   docker-desktop `
   googlechrome `
