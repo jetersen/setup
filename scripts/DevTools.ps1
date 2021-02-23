@@ -1,39 +1,7 @@
 choco install git -params '"/GitAndUnixToolsOnPath /WindowsTerminal /NoShellIntegration /SChannel"'
-choco install `
-  bitwarden-cli `
-  maven `
-  gpg4win `
-  gsudo `
-  rapidee `
-  microsoft-teams.install `
-  jetbrainstoolbox `
-  microsoft-windows-terminal `
-  element-desktop `
-  keybase `
-
-
-choco install `
-  nuget.commandline `
-  gh `
-  7zip `
-  vscode `
-  pwsh `
-  git `
-  gsudo `
-  heidisql `
-
-
-choco install `
-  dotnet-sdk `
-  docker-desktop `
-  googlechrome `
-  firefox `
-  sops `
-  spacesniffer `
-  spotify `
-  winscp `
-
-
+choco install bitwarden-cli maven gpg4win gsudo rapidee microsoft-teams.install jetbrainstoolbox microsoft-windows-terminal
+choco install nuget.commandline gh 7zip vscode pwsh git heidisql element-desktop keybase
+choco install dotnet-sdk docker-desktop googlechrome firefox sops spacesniffer spotify winscp
 choco install AdoptOpenJDK11 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome /INSTALLDIR=C:\Program Files\AdoptOpenJDK\jdk11"
 choco install AdoptOpenJDK8 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment /INSTALLDIR=C:\Program Files\AdoptOpenJDK\jdk8"
 
