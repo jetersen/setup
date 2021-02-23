@@ -12,7 +12,7 @@ choco install `
   keybase `
 
 
-choco install
+choco install `
   nuget.commandline `
   gh `
   7zip `
@@ -23,7 +23,7 @@ choco install
   heidisql `
 
 
-choco install
+choco install `
   dotnet-sdk `
   docker-desktop `
   googlechrome `
