@@ -29,7 +29,7 @@ apt-get install zsh
 # create user
 
 useradd -m -s "$(which bash)" -G sudo joseph
-echo joseph:changeit | chpasswd
+echo 'joseph:changeit' | chpasswd
 
 echo 'changeit' | su joseph
 clear
