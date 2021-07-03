@@ -3,7 +3,7 @@ choco install maven
 choco install gpg4win
 choco install gsudo
 choco install rapidee
-choco install microsoft-teams.install
+choco install microsoft-teams
 choco install jetbrainstoolbox
 choco install microsoft-windows-terminal
 choco install gh
