@@ -1,28 +1,71 @@
-choco install bitwarden-cli
 choco install maven
-choco install gpg4win
-choco install gsudo
-choco install rapidee
-choco install microsoft-teams
-choco install jetbrainstoolbox
-choco install microsoft-windows-terminal
-choco install gh
-choco install 7zip
-choco install vscode
-choco install pwsh
-choco install git
-choco install heidisql
-choco install keybase
-choco install dotnet-sdk
-choco install docker-desktop
-choco install googlechrome
-choco install firefox
 choco install sops
 choco install spacesniffer
-choco install spotify
-choco install winscp
-choco install bloomrpc
-choco install AdoptOpenJDK11 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome /INSTALLDIR=C:\Program Files\AdoptOpenJDK\jdk11"
-choco install AdoptOpenJDK8 --params="/ADDLOCAL=FeatureMain,FeatureEnvironment /INSTALLDIR=C:\Program Files\AdoptOpenJDK\jdk8"
+
+winget source update
+$PackageIdentifiers = @(
+  "3T.Robo3T"
+  "7zip.7zip"
+  "Adobe.AdobeAcrobatReaderDC"
+  "AdoptOpenJDK.OpenJDK.11"
+  "AdoptOpenJDK.OpenJDK.8"
+  "Bitwarden.Bitwarden"
+  "CPUID.HWMonitor"
+  "Docker.DockerDesktop"
+  "Element.Element"
+  "Elgato.ControlCenter"
+  "Elgato.StreamDeck"
+  "Flameshot.Flameshot"
+  "Git.Git"
+  "GitHub.cli"
+  "GitHub.GitHubDesktop"
+  "GnuPG.GnuPG"
+  "GnuPG.Gpg4win"
+  "Google.Chrome"
+  "HeidiSQL.HeidiSQL"
+  "JanDeDobbeleer.OhMyPosh"
+  "JetBrains.Toolbox"
+  "Microsoft.dotnet"
+  "Microsoft.dotnet"
+  "Microsoft.Edge"
+  "Microsoft.OneDrive"
+  "Microsoft.PowerShell"
+  "Microsoft.Teams"
+  "Microsoft.VC++2008Redist-x86"
+  "Microsoft.VC++2010Redist-x86"
+  "Microsoft.VC++2015-2019Redist-x64"
+  "Microsoft.VC++2015-2019Redist-x86"
+  "Microsoft.VisualStudioCode"
+  "Microsoft.WindowsTerminal"
+  "Mirantis.Lens"
+  "Mozilla.Firefox"
+  "mRemoteNG.mRemoteNG"
+  "NordVPN.NordVPN"
+  "Notepad++.Notepad++"
+  "Nvidia.Broadcast"
+  "OpenVPNTechnologies.OpenVPNConnect"
+  "Parsec.Parsec"
+  "Piriform.Speccy"
+  "Python.Python.3"
+  "SlackTechnologies.Slack"
+  "Spotify.Spotify"
+  "uw-labs.BloomRPC"
+  "Valve.Steam"
+  "VideoLAN.VLC"
+  "Voicemod.Voicemod"
+  "WinSCP.WinSCP"
+  "WireGuard.WireGuard"
+  "Yubico.Authenticator"
+  "Zoom.Zoom"
+)
+
+$wingetList = winget list
+foreach ($package in $PackageIdentifiers) {
+  if ($wingetList | Select-String -Pattern $package -Quiet) {
+    "$package already installed"
+  } else {
+    winget install --exact --silent $package
+  }
+}
 
 RefreshEnv

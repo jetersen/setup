@@ -1,16 +1,13 @@
 $features = @{
   enable = @(
     'Microsoft-Windows-Subsystem-Linux',
+    'VirtualMachinePlatform'
     'Containers'
   )
   disable = @(
     # Internet Explorer 🤮
     # 'Internet-Explorer-Optional-amd64'
   )
-}
-$winVer = [int](Get-Item "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue('ReleaseID')
-if ($winVer -ge 2004) {
-  $features.enable += @('VirtualMachinePlatform')
 }
 
 if ($features.disable) {
