@@ -26,37 +26,54 @@ apt-get install -y nodejs
 
 apt-get install zsh
 
+function install_awscli {
+  echo "Installing awscli..."
+  [ -d /usr/local/aws ] && sudo rm -rf /usr/local/aws
+  [ -f /usr/local/bin/aws ] && sudo rm /usr/local/bin/aws
+  curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+  unzip -qq -d /tmp/ /tmp/awscliv2.zip
+  sudo /tmp/aws/install --install-dir /usr/local/aws-cli --bin-dir /usr/local/bin &> /dev/null # for installation
+  rm /tmp/awscliv2.zip
+  rm -rf /tmp/aws
+}
+
+which aws || install_awscli
+
 if id "joseph" &>/dev/null; then
   echo 'user exists'
 else
   # create user
-  useradd -m -s "$(which bash)" -G sudo joseph
+  useradd -m -s "$(which bash)" -G sudo,docker joseph
   echo 'joseph:changeit' | chpasswd
 
   echo 'changeit' | su joseph
   clear
 
   # ASDF
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.0
-  . $HOME/.asdf/asdf.sh
-  asdf plugin add kubectl
-  asdf plugin add kops
-  asdf plugin add github-cli
-  asdf plugin add sops
-  asdf plugin add helmfile
-  asdf plugin add argocd
-  asdf plugin add helm
-  adsf plugin add rke
-  asdf install kubectl 1.19.5
-  asdf install kops v1.19.1
-  asdf install github-cli 1.7.0
-  asdf install sops v3.6.1
-  asdf install helmfile 0.129.3
-  asdf install argocd 1.8.4
-  asdf install helm 3.4.1
-  asdf install rke v1.2.3
+  git clone https://github.com/asdf-vm/asdf.git "${HOME}/.asdf" --branch v0.8.1
+  . "${HOME}/.asdf/asdf.sh"
 
-  mkdir -p git/work git/code
+  plugins=$(echo "argocd
+    github-cli
+    helm
+    helmfile
+    kops
+    kubectl
+    kustomize
+    sops
+  " | tr -d '[:blank:]')
 
-  git clone https://github.com/jetersen/dotfiles.git "$HOME/git/code/dotfiles"
+  # install latest
+  # asdf plugin list | xargs -r -I % -d\\n -n1 bash -c 'asdf install % latest'
+  # uninstall old versions:
+  # asdf plugin list | xargs -r -I % -d\\n -n1 bash -c 'asdf list % | tr -d "[:blank:]" | sort -rV | tail +2 | xargs -r -d\\n -n1 asdf uninstall %'
+  # update global tool versions
+  # asdf plugin list | xargs -r -I % -d\\n -n1 bash -c 'asdf list % | tr -d "[:blank:]" | sort -rV | head | xargs -r -d\\n -n1 asdf global %'
+  echo "${plugins}" | xargs -d\\n -n1 asdf plugin add
+  echo "${plugins}" | xargs -I % -d\\n -n1 bash -c 'asdf install % latest'
+  echo "${plugins}" | xargs -r -I % -d\\n -n1 bash -c 'asdf list % | tr -d "[:blank:]" | sort -rV | head | xargs -r -d\\n -n1 asdf global %'
+
+  mkdir -p "${HOME}/git/work" "${HOME}/git/code"
+
+  git clone https://github.com/jetersen/dotfiles.git "${HOME}/git/code/dotfiles"
 fi
