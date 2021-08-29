@@ -26,7 +26,6 @@ ExecuteScript "SystemConfiguration.ps1"
 ExecuteScript "Features.ps1"
 ExecuteScript "RemoveDefaultApps.ps1"
 ExecuteScript "DevTools.ps1"
-ExecuteScript "Scoop.ps1"
 ExecuteScript "WSL.ps1"
 ExecuteScript "Projects.ps1"
 
