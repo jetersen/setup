@@ -16,10 +16,10 @@ Pop-Location
 
 $folder = "${ENV:TEMP}\jetbrainsmono"
 if ([System.IO.Directory]::Exists($folder) -eq $false) {
-  $githubLatestReleases = 'https://api.github.com/repos/JetBrains/JetBrainsMono/releases/latest'
-  $githubLatestRelease = ((Invoke-RestMethod $gitHubLatestReleases).assets.browser_download_url | Select-String 'zip').Line
+  $releases = Invoke-RestMethod 'https://api.github.com/repos/JetBrains/JetBrainsMono/releases/latest'
+  $latestRelease = $releases.assets | Where-Object { $_.browser_download_url.EndsWith('zip') } | Select-Object -First 1 -ExpandProperty browser_download_url
   $zipFile = "${ENV:TEMP}\jetbrainsmono.zip"
-  curl.exe -sSfL -o "${zipFile}" "${githubLatestRelease}"
+  curl.exe -sSfL -o "${zipFile}" "${latestRelease}"
 
   Expand-Archive -Path "${zipFile}" -DestinationPath "${folder}"
 }
