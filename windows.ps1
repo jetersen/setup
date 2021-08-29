@@ -27,6 +27,7 @@ ExecuteScript "Features.ps1"
 ExecuteScript "RemoveDefaultApps.ps1"
 ExecuteScript "DevTools.ps1"
 ExecuteScript "WSL.ps1"
+ExecuteScript "Fonts.ps1"
 ExecuteScript "Projects.ps1"
 
 Enable-UAC
