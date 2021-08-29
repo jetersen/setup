@@ -61,11 +61,11 @@ $PackageIdentifiers = @(
 
 $wingetList = winget list
 foreach ($package in $PackageIdentifiers) {
-  if ($wingetList | Select-String -Pattern $package -Quiet) {
+  if ($wingetList | Select-String -Pattern $package.Replace('+', '\+') -Quiet) {
     "$package already installed"
   } else {
     winget install --exact --silent $package
   }
 }
 
-RefreshEnv
+Update-SessionEnvironment

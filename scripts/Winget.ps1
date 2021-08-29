@@ -8,7 +8,7 @@ if (!$hasPackageManager -or [version]$hasPackageManager.Version -lt [version]"1.
 
   "Installing winget from ${latestRelease}"
   Add-AppxPackage -Path $latestRelease
-  RefreshEnv
+  Update-SessionEnvironment
 }
 else {
   "winget already installed"

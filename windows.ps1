@@ -22,6 +22,14 @@ function ExecuteScript {
   Invoke-Expression ((new-object net.webclient).DownloadString("$helperUri/$script"))
 }
 
+if (!$env:ChocolateyInstall) {
+  $env:ChocolateyInstall = "C:\ProgramData\chocolatey"
+}
+$chocoProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if ([System.IO.File]::Exists("$chocoProfile")) {
+  Import-Module "$chocoProfile"
+}
+
 ExecuteScript "SystemConfiguration.ps1"
 ExecuteScript "Winget.ps1"
 ExecuteScript "Features.ps1"
