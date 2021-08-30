@@ -4,8 +4,8 @@ if ([System.IO.Directory]::Exists($folder) -eq $false) {
   git clone --depth 1 --filter=blob:none --sparse 'https://github.com/ryanoasis/nerd-fonts.git' "${folder}"
 }
 
-$systemFonts = @(Get-ChildItem "$ENV:WINDIR\Fonts" | Where-Object {$_.PSIsContainer -eq $false} | Select-Object -ExpandProperty BaseName)
-$userFonts = @(Get-ChildItem "C:\Users\$env:username\AppData\Local\Microsoft\Windows\Fonts" | Where-Object {$_.PSIsContainer -eq $false} | Select-Object -ExpandProperty BaseName)
+$systemFonts = @(Get-ChildItem "${ENV:WINDIR}\Fonts" | Where-Object {$_.PSIsContainer -eq $false} | Select-Object -ExpandProperty BaseName)
+$userFonts = @(Get-ChildItem "${ENV:LOCALAPPDATA}\Microsoft\Windows\Fonts" -ErrorAction SilentlyContinue | Where-Object {$_.PSIsContainer -eq $false} | Select-Object -ExpandProperty BaseName)
 $installedFonts = -join $($systemFonts + $userFonts)
 $fontsDir = "patched-fonts/JetBrainsMono/Ligatures"
 Push-Location "$folder"
@@ -24,7 +24,7 @@ if ([System.IO.Directory]::Exists($folder) -eq $false) {
   Expand-Archive -Path "${zipFile}" -DestinationPath "${folder}"
 }
 
-$jetbrainsMonos = @(Get-ChildItem "JetBrainsMono-*.ttf" -Recurse | Where-Object { $installedFonts -inotlike "*$($_.BaseName)*" })
+$jetbrainsMonos = @(Get-ChildItem "${folder}\fonts\ttf\JetBrainsMono-*.ttf" -Recurse | Where-Object { $installedFonts -inotlike "*$($_.BaseName)*" })
 
 $fontFiles = $jetbrainsMonoNFs + $jetbrainsMonos
 
