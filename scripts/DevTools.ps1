@@ -16,6 +16,7 @@ $PackageIdentifiers = @(
   "Elgato.ControlCenter"
   "Elgato.StreamDeck"
   "Flameshot.Flameshot"
+  "gerardog.gsudo"
   "Git.Git"
   "GitHub.cli"
   "GitHub.GitHubDesktop"
