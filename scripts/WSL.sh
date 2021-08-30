@@ -47,7 +47,8 @@ else
   echo 'joseph:changeit' | chpasswd
 
   echo 'changeit' | su joseph
-  clear
+
+  chsh joseph -s /usr/bin/zsh
 
   # ASDF
   git clone https://github.com/asdf-vm/asdf.git "/home/joseph/.asdf" --branch v0.8.1
