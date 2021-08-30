@@ -50,8 +50,8 @@ else
   clear
 
   # ASDF
-  git clone https://github.com/asdf-vm/asdf.git "${HOME}/.asdf" --branch v0.8.1
-  . "${HOME}/.asdf/asdf.sh"
+  git clone https://github.com/asdf-vm/asdf.git "/home/joseph/.asdf" --branch v0.8.1
+  . "/home/joseph/.asdf/asdf.sh"
 
   plugins=$(echo "argocd
     github-cli
@@ -73,7 +73,7 @@ else
   echo "${plugins}" | xargs -I % -d\\n -n1 bash -c 'asdf install % latest'
   echo "${plugins}" | xargs -r -I % -d\\n -n1 bash -c 'asdf list % | tr -d "[:blank:]" | sort -rV | head | xargs -r -d\\n -n1 asdf global %'
 
-  mkdir -p "${HOME}/git/work" "${HOME}/git/code"
+  mkdir -p "/home/joseph/git/work" "/home/joseph/git/code"
 
-  git clone https://github.com/jetersen/dotfiles.git "${HOME}/git/code/dotfiles"
+  git clone https://github.com/jetersen/dotfiles.git "/home/joseph/git/code/dotfiles"
 fi
