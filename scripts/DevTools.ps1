@@ -44,6 +44,7 @@ $PackageIdentifiers = @(
   "NordVPN.NordVPN"
   "Notepad++.Notepad++"
   "Nvidia.Broadcast"
+  "OlegDanilov.RapidEnvironmentEditor"
   "OpenVPNTechnologies.OpenVPNConnect"
   "Parsec.Parsec"
   "Piriform.Speccy"
