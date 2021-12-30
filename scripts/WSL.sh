@@ -9,20 +9,7 @@ rm -f packages-microsoft-prod.deb
 apt-get update
 apt-get install -y apt-transport-https
 apt-get update
-apt-get install -y dotnet-sdk-5.0 dotnet-sdk-3.1
-
-# python
-
-apt-get install -y python3 python3-venv python3-pip
-
-# ruby
-
-apt-get install -y ruby ruby-dev ruby-bundler zlib1g-dev
-
-# nodejs
-
-curl -sL https://deb.nodesource.com/setup_14.x | bash -
-apt-get install -y nodejs
+apt-get install -y dotnet-sdk-6.0
 
 apt-get install zsh
 
