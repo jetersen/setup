@@ -20,8 +20,6 @@ $PackageIdentifiers = @(
   "Git.Git"
   "GitHub.cli"
   "GitHub.GitHubDesktop"
-  "GnuPG.GnuPG"
-  "GnuPG.Gpg4win"
   "Google.Chrome"
   "HeidiSQL.HeidiSQL"
   "JanDeDobbeleer.OhMyPosh"
