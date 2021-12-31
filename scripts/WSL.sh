@@ -38,7 +38,7 @@ else
   chsh joseph -s /usr/bin/zsh
 
   # ASDF
-  git clone https://github.com/asdf-vm/asdf.git "/home/joseph/.asdf" --branch v0.8.1
+  git clone https://github.com/asdf-vm/asdf.git "/home/joseph/.asdf" --branch v0.9.0
   . "/home/joseph/.asdf/asdf.sh"
 
   plugins=$(echo "argocd
