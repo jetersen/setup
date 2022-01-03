@@ -2,8 +2,7 @@
   git clone https://github.com/asdf-vm/asdf.git "/home/joseph/.asdf" --branch v0.9.0
   . "/home/joseph/.asdf/asdf.sh"
 
-  plugins=$(echo "argocd
-    github-cli
+  plugins=$(echo "github-cli
     helm
     helmfile
     kops
