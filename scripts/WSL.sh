@@ -33,8 +33,6 @@ else
   useradd -m -s "$(which bash)" -G sudo,docker joseph
   echo 'joseph:changeit' | chpasswd
 
-  echo 'changeit' | su joseph
-
   chsh joseph -s /usr/bin/zsh
 
   echo 'changeit' | sudo -S -u joseph bash -c "curl -sL 'https://raw.githubusercontent.com/jetersen/setup/main/scripts/user.sh' | bash"
