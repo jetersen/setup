@@ -5,7 +5,6 @@
   plugins=$(echo "github-cli
     helm
     helmfile
-    kops
     kubectl
     kustomize
     sops
