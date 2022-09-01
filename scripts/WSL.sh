@@ -11,17 +11,15 @@ apt-get update
 apt-get upgrade -y
 
 apt-get install -y apt-transport-https
-apt-get install -y dotnet-sdk-6.0
-apt-get install -y gh
-apt-get install -y zsh
+apt-get install -y dotnet-sdk-6.0 gh zsh unzip
 
 function install_awscli {
   echo "Installing awscli..."
-  [ -d /usr/local/aws ] && sudo rm -rf /usr/local/aws
-  [ -f /usr/local/bin/aws ] && sudo rm /usr/local/bin/aws
+  [ -d /usr/local/aws ] && rm -rf /usr/local/aws
+  [ -f /usr/local/bin/aws ] && rm /usr/local/bin/aws
   curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
   unzip -qq -d /tmp/ /tmp/awscliv2.zip
-  sudo /tmp/aws/install --install-dir /usr/local/aws-cli --bin-dir /usr/local/bin &> /dev/null # for installation
+  /tmp/aws/install --install-dir /usr/local/aws-cli --bin-dir /usr/local/bin &> /dev/null # for installation
   rm /tmp/awscliv2.zip
   rm -rf /tmp/aws
 }
@@ -32,7 +30,7 @@ if id "joseph" &>/dev/null; then
   echo 'user exists'
 else
   # create user
-  useradd -m -s "$(which bash)" -G sudo,docker joseph
+  useradd -m -s "$(which bash)" -G sudo joseph
   echo 'joseph:changeit' | chpasswd
 
   chsh joseph -s /usr/bin/zsh
