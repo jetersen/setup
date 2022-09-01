@@ -11,7 +11,7 @@ $PackageIdentifiers = @(
   "GitHub.GitHubDesktop"
   "JanDeDobbeleer.OhMyPosh"
   "JetBrains.Toolbox"
-  "Microsoft.dotnet"
+  "Microsoft.DotNet.SDK.6"
   "Microsoft.Edge"
   "Microsoft.PowerShell"
   "Microsoft.VisualStudioCode"
