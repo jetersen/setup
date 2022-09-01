@@ -3,9 +3,7 @@ choco install spacesniffer
 
 winget source update
 $PackageIdentifiers = @(
-  "7zip.7zip"
   "Bitwarden.Bitwarden"
-  "Docker.DockerDesktop"
   "Flameshot.Flameshot"
   "gerardog.gsudo"
   "Git.Git"
@@ -25,7 +23,6 @@ $PackageIdentifiers = @(
   "Spotify.Spotify"
   "WinSCP.WinSCP"
   "Yubico.Authenticator"
-  "Zoom.Zoom"
 )
 
 $wingetList = winget list
