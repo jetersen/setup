@@ -1,17 +1,19 @@
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get upgrade -y
+
+apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+apt-add-repository https://cli.github.com/packages
 
 wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb
 rm -f packages-microsoft-prod.deb
 
 apt-get update
-apt-get install -y apt-transport-https
-apt-get update
-apt-get install -y dotnet-sdk-6.0
+apt-get upgrade -y
 
-apt-get install zsh
+apt-get install -y apt-transport-https
+apt-get install -y dotnet-sdk-6.0
+apt-get install -y gh
+apt-get install -y zsh
 
 function install_awscli {
   echo "Installing awscli..."
