@@ -30,6 +30,7 @@ foreach ($package in $PackageIdentifiers) {
   if ($wingetList | Select-String -Pattern $package.Replace('+', '\+') -Quiet) {
     "$package already installed"
   } else {
-    winget install --exact --silent $package
+    "Installing $package"
+    winget install --exact $package
   }
 }
