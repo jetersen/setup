@@ -33,5 +33,3 @@ foreach ($package in $PackageIdentifiers) {
     winget install --exact --silent $package
   }
 }
-
-Update-SessionEnvironment
