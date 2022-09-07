@@ -5,8 +5,6 @@
   plugins=$(echo "
     helm
     kubectl
-    kustomize
-    sops
   " | tr -d '[:blank:]')
 
   # install latest
