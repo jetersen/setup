@@ -1,17 +1,21 @@
 export DEBIAN_FRONTEND=noninteractive
 
-apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-apt-add-repository https://cli.github.com/packages
+apt-get update
+apt-get upgrade -y
+# Install pre-requisite packages.
+apt-get install -y apt-transport-https software-properties-common
 
-wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+curl -sSfL "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" -o packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb
 rm -f packages-microsoft-prod.deb
 
-apt-get update
-apt-get upgrade -y
+curl -sSfL https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /usr/share/keyrings/githubcli-archive-keyring.gpg >/dev/null
+chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list >/dev/null
 
-apt-get install -y apt-transport-https
-apt-get install -y dotnet-sdk-6.0 gh zsh unzip
+apt-get update
+
+apt-get install -y dotnet-sdk-6.0 gh zsh powershell
 
 function install_awscli {
   echo "Installing awscli..."
