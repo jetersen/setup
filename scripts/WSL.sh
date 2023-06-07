@@ -15,7 +15,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githu
 
 apt-get update
 
-apt-get install -y dotnet-sdk-6.0 gh zsh powershell
+apt-get install -y dotnet-sdk-7.0 gh zsh powershell
 
 function install_awscli {
   echo "Installing awscli..."
