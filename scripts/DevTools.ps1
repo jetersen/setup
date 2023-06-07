@@ -1,6 +1,3 @@
-choco install sops
-choco install spacesniffer
-
 winget source update
 $PackageIdentifiers = @(
   "Bitwarden.Bitwarden"
@@ -11,16 +8,18 @@ $PackageIdentifiers = @(
   "GitHub.GitHubDesktop"
   "JanDeDobbeleer.OhMyPosh"
   "JetBrains.Toolbox"
-  "Microsoft.DotNet.SDK.6"
+  "Microsoft.DotNet.SDK.7"
   "Microsoft.Edge"
   "Microsoft.PowerShell"
   "Microsoft.VisualStudioCode"
   "Microsoft.WindowsTerminal"
   "Mirantis.Lens"
+  "Mozilla.SOPS"
   "OlegDanilov.RapidEnvironmentEditor"
   "Parsec.Parsec"
   "SlackTechnologies.Slack"
   "Spotify.Spotify"
+  "UderzoSoftware.SpaceSniffer"
   "WinSCP.WinSCP"
   "Yubico.Authenticator"
 )
