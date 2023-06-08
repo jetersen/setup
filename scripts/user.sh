@@ -20,4 +20,3 @@ echo "${plugins}" | xargs -r -I % -d\\n -n1 bash -c 'asdf list % | tr -d "[:blan
 mkdir -p "/home/joseph/git/work" "/home/joseph/git/code"
 
 git clone https://github.com/jetersen/dotfiles.git "/home/joseph/git/code/dotfiles"
-
