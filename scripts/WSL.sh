@@ -23,20 +23,11 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githu
 
 apt-get update
 
-apt-get install -y dotnet-sdk-7.0 gh zsh powershell wslu
+apt-get install -y dotnet-sdk-7.0 gh zsh powershell wslu build-essential procps curl file git
 
-function install_awscli {
-  echo "Installing awscli..."
-  [ -d /usr/local/aws ] && rm -rf /usr/local/aws
-  [ -f /usr/local/bin/aws ] && rm /usr/local/bin/aws
-  curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
-  unzip -qq -d /tmp/ /tmp/awscliv2.zip
-  /tmp/aws/install --install-dir /usr/local/aws-cli --bin-dir /usr/local/bin &> /dev/null # for installation
-  rm /tmp/awscliv2.zip
-  rm -rf /tmp/aws
-}
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-which aws || install_awscli
+brew install awscli kubernetes-cli helm kustomize jandedobbeleer/oh-my-posh/oh-my-posh
 
 if id "joseph" &>/dev/null; then
   echo 'user exists'
