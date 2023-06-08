@@ -1,30 +1,29 @@
-$folder = "${ENV:TEMP}\nerdfonts"
+$nerdFontsfolder = "${ENV:TEMP}\nerdfonts"
 if ([System.IO.Directory]::Exists($folder) -eq $false) {
-  New-Item -Path "${folder}" -ItemType Directory | Out-Null
-  git clone --depth 1 --filter=blob:none --sparse 'https://github.com/ryanoasis/nerd-fonts.git' "${folder}"
+  New-Item -Path "${nerdFontsfolder}" -ItemType Directory | Out-Null
+  $releases = Invoke-RestMethod 'https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest'
+  $latestRelease = $releases.assets | Where-Object { $_.browser_download_url.EndsWith('JetBrainsMono.zip') } | Select-Object -First 1 -ExpandProperty browser_download_url
+  $zipFile = "${nerdFontsfolder}\nerdfonts.zip"
+  curl.exe -sSfL -o "${zipFile}" "${latestRelease}"
 }
 
 $systemFonts = @(Get-ChildItem "${ENV:WINDIR}\Fonts" | Where-Object {$_.PSIsContainer -eq $false} | Select-Object -ExpandProperty BaseName)
 $userFonts = @(Get-ChildItem "${ENV:LOCALAPPDATA}\Microsoft\Windows\Fonts" -ErrorAction SilentlyContinue | Where-Object {$_.PSIsContainer -eq $false} | Select-Object -ExpandProperty BaseName)
 $installedFonts = -join $($systemFonts + $userFonts)
-$fontsDir = "patched-fonts/JetBrainsMono/Ligatures"
-Push-Location "$folder"
-git sparse-checkout set "$fontsDir"
-$jetbrainsMonoNFs = @(Get-ChildItem "*Complete Windows Compatible.ttf" -Recurse | Where-Object { $installedFonts -inotlike "*$($_.BaseName)*" })
+$jetbrainsMonoNFs = @(Get-ChildItem "$nerdFontsfolder\JetBrainsMonoNerdFont*.ttf" -Recurse | Where-Object { $installedFonts -inotlike "*$($_.BaseName)*" })
 
-Pop-Location
-
-$folder = "${ENV:TEMP}\jetbrainsmono"
-if ([System.IO.Directory]::Exists($folder) -eq $false) {
+$jetbainsFolder = "${ENV:TEMP}\jetbrainsmono"
+if ([System.IO.Directory]::Exists($jetbainsFolder) -eq $false) {
+  New-Item -Path "${jetbainsFolder}" -ItemType Directory | Out-Null
   $releases = Invoke-RestMethod 'https://api.github.com/repos/JetBrains/JetBrainsMono/releases/latest'
   $latestRelease = $releases.assets | Where-Object { $_.browser_download_url.EndsWith('zip') } | Select-Object -First 1 -ExpandProperty browser_download_url
-  $zipFile = "${ENV:TEMP}\jetbrainsmono.zip"
-  curl.exe -sSfL -o "${zipFile}" "${latestRelease}"
+  $zipFile = "${jetbainsFolder}\jetbrainsmono.zip"
+  curl.exe -sSfL -o $zipFile $latestRelease
 
-  Expand-Archive -Path "${zipFile}" -DestinationPath "${folder}"
+  Expand-Archive -Path $zipFile -DestinationPath ${jetbainsFolder}
 }
 
-$jetbrainsMonos = @(Get-ChildItem "${folder}\fonts\ttf\JetBrainsMono-*.ttf" -Recurse | Where-Object { $installedFonts -inotlike "*$($_.BaseName)*" })
+$jetbrainsMonos = @(Get-ChildItem "${jetbainsFolder}\fonts\ttf\JetBrainsMono-*.ttf" -Recurse | Where-Object { $installedFonts -inotlike "*$($_.BaseName)*" })
 
 $fontFiles = $jetbrainsMonoNFs + $jetbrainsMonos
 
@@ -42,3 +41,6 @@ if ($fontFiles) {
     Remove-Item $installDir -Recurse -Force
   }
 }
+
+Remove-Item $nerdFontsfolder -Recurse -Force
+Remove-Item $jetbainsFolder -Recurse -Force
