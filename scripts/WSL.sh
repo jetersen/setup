@@ -27,7 +27,7 @@ apt-get install -y dotnet-sdk-7.0 gh zsh powershell wslu build-essential procps 
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew install awscli kubernetes-cli helm kustomize jandedobbeleer/oh-my-posh/oh-my-posh
+brew install awscli kubernetes-cli helm kustomize sops yq jandedobbeleer/oh-my-posh/oh-my-posh fluxcd/tap/flux
 
 if id "joseph" &>/dev/null; then
   echo 'user exists'
