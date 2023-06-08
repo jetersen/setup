@@ -9,6 +9,12 @@ curl -sSfL "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/pack
 dpkg -i packages-microsoft-prod.deb
 rm -f packages-microsoft-prod.deb
 
+cat >/etc/apt/preferences <<EOL
+Package: dotnet* aspnet* netstandard*
+Pin: origin "packages.microsoft.com"
+Pin-Priority: -10
+EOL
+
 curl -sSfL https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /usr/share/keyrings/githubcli-archive-keyring.gpg >/dev/null
 chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list >/dev/null

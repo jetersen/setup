@@ -4,9 +4,9 @@ curl.exe -sSfL https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_
 msiexec /a "$file" /passive
 
 wsl --set-default-version 2
-if (!(Get-Command "ubuntu2004.exe" -ErrorAction SilentlyContinue)) {
+if (!(Get-Command "ubuntu.exe" -ErrorAction SilentlyContinue)) {
   winget install --exact --silent "Canonical.Ubuntu.2204"
-  ubuntu2204.exe install --root
-  Ubuntu2204 run "curl -sL '$helperUri/WSL.sh' | bash"
-  Ubuntu2204 config --default-user joseph
+  ubuntu.exe install --root
+  Ubuntu.exe run "curl -sL '$helperUri/WSL.sh' | bash"
+  Ubuntu.exe config --default-user joseph
 }
