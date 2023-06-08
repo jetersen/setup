@@ -5,6 +5,8 @@ apt-get upgrade -y
 # Install pre-requisite packages.
 apt-get install -y apt-transport-https software-properties-common
 
+sudo add-apt-repository ppa:wslutilities/wslu
+
 curl -sSfL "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" -o packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb
 rm -f packages-microsoft-prod.deb
@@ -21,7 +23,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githu
 
 apt-get update
 
-apt-get install -y dotnet-sdk-7.0 gh zsh powershell
+apt-get install -y dotnet-sdk-7.0 gh zsh powershell wslu
 
 function install_awscli {
   echo "Installing awscli..."
