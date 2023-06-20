@@ -5,6 +5,8 @@ if ([System.IO.Directory]::Exists($folder) -eq $false) {
   $latestRelease = $releases.assets | Where-Object { $_.browser_download_url.EndsWith('JetBrainsMono.zip') } | Select-Object -First 1 -ExpandProperty browser_download_url
   $zipFile = "${nerdFontsfolder}\nerdfonts.zip"
   curl.exe -sSfL -o "${zipFile}" "${latestRelease}"
+
+  Expand-Archive -Path $zipFile -DestinationPath ${nerdFontsfolder}
 }
 
 $systemFonts = @(Get-ChildItem "${ENV:WINDIR}\Fonts" | Where-Object {$_.PSIsContainer -eq $false} | Select-Object -ExpandProperty BaseName)
