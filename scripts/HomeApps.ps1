@@ -1,6 +1,6 @@
 winget source update
 $PackageIdentifiers = @(
-  "Steam.Steam"
+  "Valve.Steam"
   "Nvidia.Broadcast"
   "Elgato.StreamDeck"
   "Elgato.ControlCenter"
