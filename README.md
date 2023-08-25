@@ -4,8 +4,8 @@ I frequently need to run my setup, so I written it into scripts.
 
 ## ClickOnce Microsoft Edge
 
-[Home Setup](https://boxstarter.org/package/url?https://raw.githubusercontent.com/jetersen/setup/master/windows-home.ps1)
-[Work Setup](https://boxstarter.org/package/url?https://raw.githubusercontent.com/jetersen/setup/master/windows-work.ps1)
+* [Home Setup](https://boxstarter.org/package/url?https://raw.githubusercontent.com/jetersen/setup/master/windows-home.ps1)
+* [Work Setup](https://boxstarter.org/package/url?https://raw.githubusercontent.com/jetersen/setup/master/windows-work.ps1)
 
 ## Backup ways to run
 
