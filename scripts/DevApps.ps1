@@ -12,6 +12,7 @@ $PackageIdentifiers = @(
   "WinSCP.WinSCP"
   "Amazon.AWSCli"
   "Google.CloudSDK"
+  "dandavison.delta"
 )
 
 $wingetList = winget list --accept-source-agreements
