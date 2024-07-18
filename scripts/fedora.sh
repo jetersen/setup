@@ -15,7 +15,11 @@ gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc
 EOF
 
-sudo dnf config-manager --add-repo https://packages.microsoft.com/config/fedora/40/prod.repo
+curl -sSL -o ~/Downloads/packages-microsoft-prod.rpm https://packages.microsoft.com/config/rhel/9/packages-microsoft-prod.rpm
+
+sudo rpm -i ~/Downloads/packages-microsoft-prod.rpm
+
+rm ~/Downloads/packages-microsoft-prod.rpm
 
 sudo dnf config-manager --add-repo https://downloads.k8slens.dev/rpm/lens.repo
 
