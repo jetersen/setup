@@ -21,10 +21,27 @@ sudo rpm -i ~/Downloads/packages-microsoft-prod.rpm
 
 rm ~/Downloads/packages-microsoft-prod.rpm
 
-sudo dnf config-manager --add-repo https://downloads.k8slens.dev/rpm/lens.repo
+# Edit /etc/yum.repos.d/microsoft-prod.repo and exclude dotnet* packages as they are included in the updates repo
+content=$(cat /etc/yum.repos.d/microsoft-prod.repo)
+if [[ $content == *"exclude="* ]]; then
+  if [[ $content == *"dotnet*"* ]]; then
+    echo "dotnet* already excluded"
+  else
+    # keep the existing exclude and add dotnet*
+    sudo sed -i 's/exclude=/exclude=dotnet* /' /etc/yum.repos.d/microsoft-prod.repo
+  fi
+else
+  # append exclude=dotnet* to the end of the file
+  echo "exclude=dotnet*" | sudo tee -a /etc/yum.repos.d/microsoft-prod.repo > /dev/null
+fi
+
+sudo dnf config-manager addrepo --from-repofile https://downloads.k8slens.dev/rpm/lens.repo
 
 echo "Installing packages"
-sudo dnf install -y btop curl git jq yq zsh fastfetch hunspell-da gh eza helm kubernetes-client powershell code dotnet-sdk-8.0 lens awscli2 git-delta jetbrains-mono-fonts
+sudo dnf install -y --skip-unavailable \
+  btop curl git jq yq zsh fastfetch \
+  hunspell-da gh eza helm kubernetes-client \
+  powershell code dotnet-sdk-8.0 lens awscli2 git-delta jetbrains-mono-fonts
 
 mkdir -p $HOME/.local/bin $HOME/.local/share/fonts $HOME/git/code $HOME/git/work
 
