@@ -1,12 +1,309 @@
 ---
 - name: Setup Fedora
   hosts: localhost
-  become: true
+  gather_facts: true
 
   tasks:
-    - name: Setup repositories rpm keys
-      rpm_key:
-        state: present
-        key: "{{ item }}"
+    - name: Check for NVIDIA GPU
+      ansible.builtin.shell: lspci | grep 'VGA.*NVIDIA'
+      register: nvidia_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: DNF install & upgrade
+      become: true
+      block:
+        - name: Setup repositories rpm keys
+          ansible.builtin.rpm_key:
+            state: present
+            key: "{{ item }}"
+          with_items:
+            - "https://packages.microsoft.com/keys/microsoft.asc"
+            - "https://repos.fyralabs.com/terra{{ ansible_distribution_major_version }}/key.asc"
+            - "https://packagecloud.io/gpg.key"
+            - "https://packagecloud.io/slacktechnologies/slack/gpgkey"
+            - "https://downloads.k8slens.dev/keys/gpg"
+            - "https://download.copr.fedorainfracloud.org/results/sneexy/zen-browser/pubkey.gpg"
+
+        - name: Add repositories
+          block:
+            - name: Add microsoft repo
+              ansible.builtin.yum_repository:
+                name: "packages-microsoft-com-prod"
+                file: "microsoft-prod"
+                description: "Microsoft Prod repo"
+                baseurl: "https://packages.microsoft.com/rhel/9.0/prod"
+                gpgcheck: yes
+                gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
+                sslverify: yes
+            - name: Add Microsoft vscode repo
+              ansible.builtin.yum_repository:
+                name: "code"
+                file: "vscode"
+                description: "Microsoft Visual Studio Code repo"
+                baseurl: "https://packages.microsoft.com/yumrepos/vscode"
+                gpgcheck: yes
+                gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
+            - name: Lens repo
+              ansible.builtin.yum_repository:
+                name: "lens-repo"
+                file: "lens"
+                description: "Mirantis Lens repo"
+                baseurl: "https://downloads.k8slens.dev/rpm/packages"
+                gpgcheck: yes
+                gpgkey: "https://downloads.k8slens.dev/keys/gpg"
+            - name: Slack repo
+              ansible.builtin.yum_repository:
+                name: "slack"
+                description: "Slack repo"
+                baseurl: "https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64"
+                gpgcheck: yes
+                gpgkey: "https://packagecloud.io/gpg.key"
+                sslverify: yes
+            - name: Terra repo
+              ansible.builtin.yum_repository:
+                name: "terra"
+                file: "terra"
+                description: "Terra repo"
+                metalink: "https://tetsudou.fyralabs.com/metalink?repo=terra{{ ansible_distribution_major_version }}&arch={{ ansible_architecture }}"
+                metadata_expire: "6"
+                gpgcheck: yes
+                gpgkey: "https://repos.fyralabs.com/terra$releasever/key.asc"
+                repo_gpgcheck: yes
+            - name: zen-browser copr repo
+              community.general.copr:
+                host: "copr.fedorainfracloud.org"
+                name: "sneexy/zen-browser"
+
+        - name: DNF install
+          ansible.builtin.dnf5:
+            name:
+              - btop
+              - curl
+              - git
+              - jq
+              - yq
+              - zsh
+              - fastfetch
+              - hunspell-da
+              - gh
+              - eza
+              - helm
+              - kubernetes-client
+              - powershell
+              - code
+              - dotnet-sdk-8.0
+              - dotnet-sdk-9.0
+              - lens
+              - awscli2
+              - git-delta
+              - jetbrains-mono-fonts
+              - slack
+              - ansible
+              - python3-github3py
+
+        - name: Install Gaming packages when NVIDIA GPU is detected
+          dnf:
+            name:
+              - akmod-nvidia
+              - xorg-x11-drv-nvidia-cuda
+              - lutris
+              - wine
+              - steam
+          when: nvidia_check.rc == 0
+
+        - name: DNF upgrade
+          ansible.builtin.dnf5:
+            name: "*"
+            state: latest
+
+        - name: DNF autoremove
+          ansible.builtin.dnf5:
+            autoremove: yes
+
+    - name: Flatpak install & upgrade
+      block:
+        - name: Add Flathub repository
+          community.general.flatpak_remote:
+            name: flathub
+            flatpakrepo_url: "https://flathub.org/repo/flathub.flatpakrepo"
+            method: user
+
+        - name: Install Flatpaks
+          community.general.flatpak:
+            name:
+              - com.spotify.Client
+              - dev.vencord.Vesktop
+              - io.dbeaver.DBeaverCommunity
+
+        - name: Install Flatpaks when NVIDIA GPU is detected
+          community.general.flatpak:
+            name:
+              - net.davidotek.pupgui2
+          when: nvidia_check.rc == 0
+
+        - name: Upgrade Flatpaks
+          community.general.flatpak:
+            name:
+              - com.spotify.Client
+              - dev.vencord.Vesktop
+              - io.dbeaver.DBeaverCommunity
+            state: latest
+
+        - name: Upgrade Flatpaks when NVIDIA GPU is detected
+          community.general.flatpak:
+            name:
+              - net.davidotek.pupgui2
+            state: latest
+          when: nvidia_check.rc == 0
+
+    - name: Configure VSCode flags
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/.config/code-flags.conf"
+        content: |
+          --enable-features=UseOzonePlatform
+          --ozone-platform=wayland
+
+    - name: Create sensitive directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0700'
       with_items:
-        - https://packages.microsoft.com/keys/microsoft.asc
+        - "{{ ansible_env.HOME }}/.ssh"
+        - "{{ ansible_env.HOME }}/.gnupg"
+        - "{{ ansible_env.HOME }}/.aws"
+        - "{{ ansible_env.HOME }}/.kube"
+        - "{{ ansible_env.HOME }}/.local"
+
+    - name: Create directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0751'
+      with_items:
+        - "{{ ansible_env.HOME }}/.local/bin"
+        - "{{ ansible_env.HOME }}/.local/share/applications"
+        - "{{ ansible_env.HOME }}/.local/share/fonts"
+        - "{{ ansible_env.HOME }}/git/code"
+        - "{{ ansible_env.HOME }}/git/work"
+
+    - name: Add slack desktop entry
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/.local/share/applications/slack.desktop"
+        content: |
+          Categories=GNOME;GTK;Network;InstantMessaging;
+          Comment[en_US]=Slack Desktop
+          Comment=Slack Desktop
+          Exec=/usr/bin/slack %U --enable-features=WebRTCPipeWireCapturer --enable-features=UseOzonePlatform --ozone-platform=wayland
+          GenericName[en_US]=Slack Client for Linux
+          GenericName=Slack Client for Linux
+          Icon=/usr/share/pixmaps/slack.png
+          MimeType=
+          Name[en_US]=Slack
+          Name=Slack
+          Path=
+          PrefersNonDefaultGPU=false
+          StartupNotify=true
+          StartupWMClass=Slack
+          Terminal=false
+          TerminalOptions=
+          Type=Application
+          X-KDE-SubstituteUID=false
+          X-KDE-Username=
+
+    - name: Add JetBrains Mono Nerd Fonts if not present
+      block:
+        - name: Load current JetBrains Mono Nerd Fonts version
+          ansible.builtin.include_vars:
+            file: "/tmp/.nerd_fonts_release_tag.yaml"
+          ignore_errors: true
+
+        - name: Print current JetBrains Mono Nerd Fonts version
+          ansible.builtin.debug:
+            msg: |-
+              Current JetBrains Mono Nerd Fonts version: {{ nerd_fonts_release | default('Not installed') }}
+
+        - name: Get the latest nerd fonts release
+          community.general.github_release:
+            user: "ryanoasis"
+            repo: "nerd-fonts"
+            action: latest_release
+          register: nerd_fonts_release_fetch
+          changed_when: nerd_fonts_release is not defined or nerd_fonts_release_fetch.tag != nerd_fonts_release
+
+        - name: Store latest nerd fonts release
+          ansible.builtin.copy:
+            dest: "/tmp/.nerd_fonts_release_tag.yaml"
+            content: "nerd_fonts_release: '{{ nerd_fonts_release_fetch.tag }}'"
+            mode: '0644'
+          when: nerd_fonts_release_fetch.changed
+
+        - name: Set fact for JetBrains Mono Nerd Fonts release
+          set_fact:
+            nerd_fonts_release: "{{ nerd_fonts_release_fetch.tag }}"
+          when: nerd_fonts_release_fetch.changed
+
+        - name: Check for JetBrains Mono Nerd Fonts
+          ansible.builtin.shell: fc-list | grep JetBrainsMonoNerdFont
+          register: jetbrains_mono_check
+          ignore_errors: true
+          changed_when: false
+
+        - name: Download JetBrains Mono Nerd Fonts
+          when: jetbrains_mono_check.rc != 0 or (nerd_fonts_release_fetch.changed is defined and nerd_fonts_release_fetch.changed)
+          ansible.builtin.unarchive:
+            src: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ nerd_fonts_release_tag.tag }}/JetBrainsMono.zip"
+            dest: "{{ ansible_env.HOME }}/.local/share/fonts/"
+            remote_src: yes
+            mode: '0644'
+            include: "JetBrainsMonoNerdFont-*.ttf"
+
+        - name: Update font cache
+          ansible.builtin.shell: fc-cache -f -v
+          changed_when: false
+          when: jetbrains_mono_check.rc != 0 or (nerd_fonts_release_fetch.changed is defined and nerd_fonts_release_fetch.changed)
+
+    - name: Check JetBrains Toolbox
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
+      register: jetbrains_toolbox
+
+    - name: JetBrains Toolbox
+      when: not jetbrains_toolbox.stat.exists
+      block:
+        - name: Get JetBrains Toolbox URL
+          ansible.builtin.uri:
+            url: "https://data.services.jetbrains.com/products/releases?code=TBA&latest=true&type=release"
+            return_content: yes
+          register: jetbrains_toolbox_response
+
+        - name: Set JetBrains Toolbox URL fact
+          ansible.builtin.set_fact:
+            jetbrains_toolbox_url: "{{ jetbrains_toolbox_response.json.TBA[0].downloads.linux.link }}"
+
+        - name: Install JetBrains Toolbox
+          ansible.builtin.unarchive:
+            src: "{{ jetbrains_toolbox_url }}"
+            dest: "{{ ansible_env.HOME }}/Downloads"
+            remote_src: yes
+            mode: '0755'
+
+        - name: Install JetBrains Toolbox
+          ansible.builtin.shell: "{{ ansible_env.HOME }}/Downloads/jetbrains-toolbox*/jetbrains-toolbox"
+          args:
+            creates: "{{ ansible_env.HOME }}/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
+
+        - name: Remove JetBrains Toolbox installer
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/Downloads/jetbrains-toolbox*"
+            state: absent
+
+    - name: Install Bitwarden cli
+      ansible.builtin.unarchive:
+        src: "https://vault.bitwarden.com/download/?app=cli&platform=linux"
+        dest: "{{ ansible_env.HOME }}/.local/bin"
+        includes: "bw"
+        remote_src: yes
+        mode: '0755'
+        creates: "{{ ansible_env.HOME }}/.local/bin/bw"
