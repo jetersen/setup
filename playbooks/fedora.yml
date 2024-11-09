@@ -253,7 +253,7 @@
         - name: Download JetBrains Mono Nerd Fonts
           when: jetbrains_mono_check.rc != 0 or (nerd_fonts_release_fetch.changed is defined and nerd_fonts_release_fetch.changed)
           ansible.builtin.unarchive:
-            src: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ nerd_fonts_release_tag.tag }}/JetBrainsMono.zip"
+            src: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ nerd_fonts_release }}/JetBrainsMono.zip"
             dest: "{{ ansible_env.HOME }}/.local/share/fonts/"
             remote_src: yes
             mode: '0644'
