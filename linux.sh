@@ -7,8 +7,14 @@ if [[ $ID == "fedora" ]]; then
       sudo dnf install -y git
     fi
 
-    mkdir -p $HOME/git/code
-    git clone https://github.com/jetersen/setup.git $HOME/git/code/setup
+    dir="$HOME/git/code"
+
+    if [ ! -d "$dir/setup" ]; then
+      mkdir -p "$dir"
+      git clone https://github.com/jetersen/setup.git "$dir/setup"
+    else
+      git -C "$dir/setup" pull
+    fi
     $HOME/git/code/setup/scripts/fedora.sh
 else
     echo "I haven't had the need to explore $ID OS yet."
