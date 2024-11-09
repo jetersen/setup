@@ -224,13 +224,19 @@
             msg: |-
               Current JetBrains Mono Nerd Fonts version: {{ nerd_fonts_release | default('Not installed') }}
 
+        - name: Check for JetBrains Mono Nerd Fonts
+          ansible.builtin.shell: fc-list | grep JetBrainsMonoNerdFont
+          register: jetbrains_mono_check
+          ignore_errors: true
+          changed_when: false
+
         - name: Get the latest nerd fonts release
           community.general.github_release:
             user: "ryanoasis"
             repo: "nerd-fonts"
             action: latest_release
           register: nerd_fonts_release_fetch
-          changed_when: nerd_fonts_release is not defined or nerd_fonts_release_fetch.tag != nerd_fonts_release
+          changed_when: jetbrains_mono_check.rc != 0 or nerd_fonts_release is not defined or nerd_fonts_release_fetch.tag != nerd_fonts_release
 
         - name: Store latest nerd fonts release
           ansible.builtin.copy:
@@ -244,14 +250,8 @@
             nerd_fonts_release: "{{ nerd_fonts_release_fetch.tag }}"
           when: nerd_fonts_release_fetch.changed
 
-        - name: Check for JetBrains Mono Nerd Fonts
-          ansible.builtin.shell: fc-list | grep JetBrainsMonoNerdFont
-          register: jetbrains_mono_check
-          ignore_errors: true
-          changed_when: false
-
         - name: Download JetBrains Mono Nerd Fonts
-          when: jetbrains_mono_check.rc != 0 or (nerd_fonts_release_fetch.changed is defined and nerd_fonts_release_fetch.changed)
+          when: nerd_fonts_release_fetch.changed
           ansible.builtin.unarchive:
             src: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ nerd_fonts_release }}/JetBrainsMono.zip"
             dest: "{{ ansible_env.HOME }}/.local/share/fonts/"
@@ -262,7 +262,7 @@
         - name: Update font cache
           ansible.builtin.shell: fc-cache -f -v
           changed_when: false
-          when: jetbrains_mono_check.rc != 0 or (nerd_fonts_release_fetch.changed is defined and nerd_fonts_release_fetch.changed)
+          when: nerd_fonts_release_fetch.changed
 
     - name: Check JetBrains Toolbox
       ansible.builtin.stat:
