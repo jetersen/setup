@@ -192,25 +192,17 @@
       ansible.builtin.copy:
         dest: "{{ ansible_env.HOME }}/.local/share/applications/slack.desktop"
         content: |
-          Categories=GNOME;GTK;Network;InstantMessaging;
-          Comment[en_US]=Slack Desktop
-          Comment=Slack Desktop
-          Exec=/usr/bin/slack %U --enable-features=WebRTCPipeWireCapturer --enable-features=UseOzonePlatform --ozone-platform=wayland
-          GenericName[en_US]=Slack Client for Linux
-          GenericName=Slack Client for Linux
-          Icon=/usr/share/pixmaps/slack.png
-          MimeType=
-          Name[en_US]=Slack
+          [Desktop Entry]
           Name=Slack
-          Path=
-          PrefersNonDefaultGPU=false
-          StartupNotify=true
           StartupWMClass=Slack
-          Terminal=false
-          TerminalOptions=
+          Comment=Slack Desktop
+          GenericName=Slack Client for Linux
+          Exec=/usr/bin/slack %U --enable-features=WebRTCPipeWireCapturer --enable-features=UseOzonePlatform --ozone-platform=wayland
+          Icon=/usr/share/pixmaps/slack.png
           Type=Application
-          X-KDE-SubstituteUID=false
-          X-KDE-Username=
+          StartupNotify=true
+          Categories=GNOME;GTK;Network;InstantMessaging;
+          MimeType=x-scheme-handler/slack;
 
     - name: Add JetBrains Mono Nerd Fonts if not present
       block:
