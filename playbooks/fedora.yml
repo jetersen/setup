@@ -1,0 +1,12 @@
+---
+- name: Setup Fedora
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Setup repositories rpm keys
+      rpm_key:
+        state: present
+        key: "{{ item }}"
+      with_items:
+        - https://packages.microsoft.com/keys/microsoft.asc

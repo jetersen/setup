@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
 
 echo "Going to ask for sudo password to install packages"
-sudo echo "Thanks! ☺️"
+if sudo -v; then
+  echo "Thanks! ☺️"
+else
+  echo "Sudo password is required to proceed."
+  exit 1
+fi
 
-echo "Setup repositories"
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+# install ansible-core
+if ! command -v ansible-playbook &> /dev/null; then
+  sudo dnf install -y ansible-core
+fi
+
+scriptDir=$(dirname $(readlink -f $0))
+
+# run fedora playbook
+ansible-playbook "$scriptDir/../playbooks/fedora.yml"
 
 sudo tee /etc/yum.repos.d/vscode.repo > /dev/null <<EOF
 [code]
