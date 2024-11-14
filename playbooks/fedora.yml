@@ -58,7 +58,7 @@
                 description: "Slack repo"
                 baseurl: "https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64"
                 gpgcheck: yes
-                gpgkey: "https://packagecloud.io/gpg.key"
+                gpgkey: "https://packagecloud.io/slacktechnologies/slack/gpgkey"
                 sslverify: yes
             - name: Terra repo
               ansible.builtin.yum_repository:
