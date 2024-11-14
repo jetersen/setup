@@ -57,7 +57,8 @@
                 name: "slack"
                 description: "Slack repo"
                 baseurl: "https://packagecloud.io/slacktechnologies/slack/fedora/21/x86_64"
-                gpgcheck: yes
+                gpgcheck: no
+                repo_gpgcheck: yes
                 gpgkey: "https://packagecloud.io/slacktechnologies/slack/gpgkey"
                 sslverify: yes
             - name: Terra repo
