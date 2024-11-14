@@ -233,7 +233,7 @@
 
         - name: Store latest nerd fonts release
           ansible.builtin.copy:
-            dest: "/tmp/.nerd_fonts_release_tag.yaml"
+            dest: "{{ ansible_env.HOME }}/.local/.nerd_fonts_release_tag.yaml"
             content: "nerd_fonts_release: '{{ nerd_fonts_release_fetch.tag }}'"
             mode: '0644'
           when: nerd_fonts_release_fetch.changed
