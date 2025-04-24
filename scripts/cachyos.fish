@@ -22,12 +22,14 @@ sudo pacman -S --needed --noconfirm \
     dotnet-runtime-bin \
     dotnet-sdk-bin \
     dotnet-targeting-pack-bin \
+    freerdp \
     git \
     git-delta \
     github-cli \
     go \
     helm \
     jq \
+    krdc \
     krew \
     kubectl \
     kubectx \
