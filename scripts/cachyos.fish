@@ -45,7 +45,7 @@ sudo pacman -S --needed --noconfirm \
     wl-clipboard \
     yq \
     zen-browser-bin \
-    >2/dev/null
+    2>/dev/null
 
 # Install AUR packages using Paru
 echo "Installing AUR packages with Paru..."
@@ -58,7 +58,7 @@ paru -S --needed --noconfirm \
     slack-desktop-wayland \
     visual-studio-code-bin \
     youtube-music-bin \
-    >2/dev/null
+    2>/dev/null
 
 # Install game-related packages if NVIDIA GPU is detected
 if test $nvidia_check -eq 0
@@ -71,7 +71,7 @@ if test $nvidia_check -eq 0
     paru -S --needed --noconfirm \
         raiderio-client \
         wowup-cf-bin \
-        >2/dev/null
+        2>/dev/null
 end
 
 # Update all packages
