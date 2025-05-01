@@ -14,7 +14,7 @@ end
 
 # Update system and install packages using Pacman
 echo "Installing packages with Pacman..."
-sudo pacman -S --needed --noconfirm \
+sudo pacman -Sq --needed --noconfirm \
     bitwarden \
     bitwarden-cli \
     discord \
@@ -44,34 +44,32 @@ sudo pacman -S --needed --noconfirm \
     virt-manager \
     wl-clipboard \
     yq \
-    zen-browser-bin \
-    2>/dev/null
+    zen-browser-bin
 
 # Install AUR packages using Paru
 echo "Installing AUR packages with Paru..."
-paru -S --needed --noconfirm \
+paru -Sq --needed --noconfirm \
     aws-cli-bin \
     jetbrains-toolbox \
     lens-bin \
     oh-my-posh-bin \
     powershell-bin \
+    pulumi-language-dotnet \
     slack-desktop-wayland \
     visual-studio-code-bin \
-    youtube-music-bin \
-    2>/dev/null
+    youtube-music-bin
 
 # Install game-related packages if NVIDIA GPU is detected
 if test $nvidia_check -eq 0
     echo "Installing game-related packages with Pacman..."
-    sudo pacman -S --needed --noconfirm \
-        protonup-qt \
-        2>/dev/null
+    sudo pacman -Sq --needed --noconfirm \
+        protonup-qt
 
     echo "Installing game-related AUR packages with Paru..."
-    paru -S --needed --noconfirm \
+    paru -Sq --needed --noconfirm \
         raiderio-client \
-        wowup-cf-bin \
-        2>/dev/null
+        wowup-cf-bin
+
 end
 
 # Update all packages
