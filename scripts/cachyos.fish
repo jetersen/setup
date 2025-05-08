@@ -24,6 +24,7 @@ sudo pacman -Sq --needed --noconfirm \
     dotnet-targeting-pack-bin \
     freerdp \
     git \
+    git-lfs \
     git-delta \
     github-cli \
     go \
