@@ -1,9 +1,5 @@
 #!/usr/bin/env fish
 
-# Check for NVIDIA GPU
-lspci | grep 'VGA.*NVIDIA' >/dev/null
-set nvidia_check $status
-
 echo "Going to ask for sudo password to install packages"
 if sudo -v
   echo "Thanks! ☺️"
@@ -14,20 +10,30 @@ end
 
 # Update system and install packages using Pacman
 echo "Installing packages with Pacman..."
-sudo pacman -Sq --needed --noconfirm \
+paru -Sq --needed --noconfirm --overwrite="*" \
+  age \
+  aspnet-runtime-bin \
+  aspnet-targeting-pack-bin \
+  aws-cli-bin \
   bitwarden \
   bitwarden-cli \
+  btop \
+  claude-code \
   discord \
+  docker \
+  docker-compose \
   dotnet-host-bin \
   dotnet-runtime-bin \
   dotnet-sdk-bin \
   dotnet-targeting-pack-bin \
+  fluxcd \
   freerdp \
   git \
-  git-lfs \
   git-delta \
+  git-lfs \
   github-cli \
   go \
+  go-yq \
   helm \
   jq \
   krdc \
@@ -35,49 +41,35 @@ sudo pacman -Sq --needed --noconfirm \
   kubectl \
   kubectx \
   kustomize \
+  lens-bin \
   meld \
-  podman \
-  podman-compose \
-  podman-docker \
+  oh-my-posh-bin \
+  powershell-bin \
   pulumi \
+  pulumi-language-dotnet \
+  rider \
+  rustdesk-bin \
+  slack-desktop-wayland \
+  sops \
+  talhelper \
+  talosctl \
   ttf-jetbrains-mono \
   ttf-jetbrains-mono-nerd \
   virt-manager \
+  visual-studio-code-bin \
   wl-clipboard \
-  yq \
+  youtube-music \
   zen-browser-bin
 
-# Install AUR packages using Paru
-echo "Installing AUR packages with Paru..."
-paru -Sq --needed --noconfirm \
-  aspnet-runtime-preview-bin \
-  aspnet-targeting-pack-preview-bin \
-  dotnet-host-preview-bin \
-  dotnet-runtime-preview-bin \
-  dotnet-sdk-preview-bin \
-  dotnet-targeting-pack-preview-bin \
-  aws-cli-bin \
-  rider \
-  rustdesk-bin \
-  lens-bin \
-  oh-my-posh-bin \
-  powershell-bin \
-  pulumi-language-dotnet \
-  slack-desktop-wayland \
-  visual-studio-code-bin \
-  youtube-music-bin
-
-# Install game-related packages if NVIDIA GPU is detected
-if test $nvidia_check -eq 0
-  echo "Installing game-related packages with Pacman..."
-  sudo pacman -Sq --needed --noconfirm \
-    protonup-qt
-
+# Check for discrete GPU using fastfetch
+fastfetch --structure GPU --format json 2>/dev/null | jq -e '.[] | select(.type == "GPU") | .result[] | select(.type == "Discrete")' >/dev/null
+and begin
   echo "Installing game-related AUR packages with Paru..."
-  paru -Sq --needed --noconfirm \
+  paru -Sq --needed --noconfirm --overwrite="*" \
+    bottles \
     raiderio-client \
+    warcraftlogsuploader \
     wowup-cf-bin
-
 end
 
 # Update all packages
